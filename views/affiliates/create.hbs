@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <a href="/affiliates" class="btn btn-outline-secondary btn-sm mb-3">← Volver al listado</a>
+
+  <h1 class="mb-4">Nuevo afiliado</h1>
+
+  {{#if error}}
+    <div class="alert alert-danger">{{error}}</div>
+  {{/if}}
+
+  <form action="/affiliates" method="POST" class="card card-body">
+    <div class="mb-3">
+      <label for="firstName" class="form-label">Nombre:</label>
+      <input type="text" id="firstName" name="firstName" class="form-control" value="{{affiliate.firstName}}" required>
+    </div>
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Apellido:</label>
+      <input type="text" id="lastName" name="lastName" class="form-control" value="{{affiliate.lastName}}" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo electrónico:</label>
+      <input type="email" id="email" name="email" class="form-control" value="{{affiliate.email}}" required>
+    </div>
+    <div class="mb-3">
+      <label for="membershipType" class="form-label">Tipo de afiliación:</label>
+      <select id="membershipType" name="membershipType" class="form-select" required>
+        {{#each membershipOptions}}
+          <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear afiliado</button>
+  </form>
+</div>
