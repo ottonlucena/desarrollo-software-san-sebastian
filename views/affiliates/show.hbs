@@ -51,13 +51,29 @@
           </button>
         </form>
 
-        {{#if simulation}}
-          <div class="alert alert-success mt-4">
-            <p class="mb-1"><strong>Monto original:</strong> ${{simulation.originalAmount}}</p>
-            <p class="mb-1"><strong>Descuento aplicado:</strong> {{simulation.discountPercentage}}%</p>
-            <p class="mb-0"><strong>Precio final:</strong> ${{simulation.finalAmount}}</p>
-          </div>
-        {{/if}}
+{{#if simulation}}
+  <div class="alert alert-success mt-4">
+    <p class="mb-1">
+      <strong>Monto original:</strong>
+      ${{simulation.treatmentAmount}}
+    </p>
+
+    <p class="mb-1">
+      <strong>Descuento aplicado:</strong>
+      {{simulation.discountPercent}}%
+    </p>
+
+    <p class="mb-1">
+      <strong>Monto descontado:</strong>
+      ${{simulation.discountAmount}}
+    </p>
+
+    <p class="mb-0">
+      <strong>Precio final:</strong>
+      ${{simulation.finalPrice}}
+    </p>
+  </div>
+{{/if}}
       </div>
     </div>
   </div>
