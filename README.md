@@ -514,7 +514,7 @@ npx prisma migrate dev --name init
 ## 1. Clonar repositorio
 
 ```bash
-git clone URL_DEL_REPOSITORIO
+git clone git@github.com:ottonlucena/desarrollo-software-san-sebastian.git
 cd mvc-express-handlebars-web-1
 ```
 
