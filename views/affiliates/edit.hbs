@@ -22,7 +22,7 @@
               id="firstName"
               name="firstName"
               class="form-control {{#if errors.firstName}}is-invalid{{/if}}"
-              value="{{affiliate.firstName}}"
+              value="{{#if values.firstName}}{{values.firstName}}{{else}}{{affiliate.firstName}}{{/if}}"
             >
 
             {{#if errors.firstName}}
@@ -39,7 +39,7 @@
               id="lastName"
               name="lastName"
               class="form-control {{#if errors.lastName}}is-invalid{{/if}}"
-              value="{{affiliate.lastName}}"
+              value="{{#if values.lastName}}{{values.lastName}}{{else}}{{affiliate.lastName}}{{/if}}"
             >
 
             {{#if errors.lastName}}
@@ -56,7 +56,7 @@
               id="email"
               name="email"
               class="form-control {{#if errors.email}}is-invalid{{/if}}"
-              value="{{affiliate.email}}"
+              value="{{#if values.email}}{{values.email}}{{else}}{{affiliate.email}}{{/if}}"
             >
 
             {{#if errors.email}}
