@@ -8,29 +8,83 @@
           Ingresa los datos del paciente afiliado a DentPlus.
         </p>
 
-        <form action="/affiliates" method="POST">
+        {{#if error}}
+          <div class="alert alert-danger">
+            {{error}}
+          </div>
+        {{/if}}
+
+        <form action="/affiliates" method="POST" novalidate>
           <div class="mb-3">
             <label for="firstName" class="form-label">Nombre</label>
-            <input type="text" id="firstName" name="firstName" class="form-control" required>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              class="form-control {{#if errors.firstName}}is-invalid{{/if}}"
+              value="{{values.firstName}}"
+            >
+
+            {{#if errors.firstName}}
+              <div class="invalid-feedback">
+                {{errors.firstName}}
+              </div>
+            {{/if}}
           </div>
 
           <div class="mb-3">
             <label for="lastName" class="form-label">Apellido</label>
-            <input type="text" id="lastName" name="lastName" class="form-control" required>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              class="form-control {{#if errors.lastName}}is-invalid{{/if}}"
+              value="{{values.lastName}}"
+            >
+
+            {{#if errors.lastName}}
+              <div class="invalid-feedback">
+                {{errors.lastName}}
+              </div>
+            {{/if}}
           </div>
 
           <div class="mb-3">
             <label for="email" class="form-label">Correo electrónico</label>
-            <input type="email" id="email" name="email" class="form-control" required>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control {{#if errors.email}}is-invalid{{/if}}"
+              value="{{values.email}}"
+            >
+
+            {{#if errors.email}}
+              <div class="invalid-feedback">
+                {{errors.email}}
+              </div>
+            {{/if}}
           </div>
 
           <div class="mb-4">
             <label for="membershipType" class="form-label">Tipo de afiliación</label>
-            <select id="membershipType" name="membershipType" class="form-select" required>
-              <option value="silver">Silver - 5%</option>
-              <option value="gold">Gold - 10%</option>
-              <option value="platinum">Platinum - 20%</option>
+            <select
+              id="membershipType"
+              name="membershipType"
+              class="form-select {{#if errors.membershipType}}is-invalid{{/if}}"
+            >
+              {{#each membershipOptions}}
+                <option value="{{value}}" {{#if selected}}selected{{/if}}>
+                  {{label}}
+                </option>
+              {{/each}}
             </select>
+
+            {{#if errors.membershipType}}
+              <div class="invalid-feedback">
+                {{errors.membershipType}}
+              </div>
+            {{/if}}
           </div>
 
           <div class="d-flex justify-content-between">

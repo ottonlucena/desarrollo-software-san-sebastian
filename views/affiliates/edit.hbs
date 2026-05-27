@@ -8,17 +8,28 @@
           Actualiza los datos del paciente afiliado.
         </p>
 
-        <form action="/affiliates/{{affiliate.id}}/edit" method="POST">
+        {{#if error}}
+          <div class="alert alert-danger">
+            {{error}}
+          </div>
+        {{/if}}
+
+        <form action="/affiliates/{{affiliate.id}}/edit" method="POST" novalidate>
           <div class="mb-3">
             <label for="firstName" class="form-label">Nombre</label>
             <input
               type="text"
               id="firstName"
               name="firstName"
-              class="form-control"
+              class="form-control {{#if errors.firstName}}is-invalid{{/if}}"
               value="{{affiliate.firstName}}"
-              required
             >
+
+            {{#if errors.firstName}}
+              <div class="invalid-feedback">
+                {{errors.firstName}}
+              </div>
+            {{/if}}
           </div>
 
           <div class="mb-3">
@@ -27,10 +38,15 @@
               type="text"
               id="lastName"
               name="lastName"
-              class="form-control"
+              class="form-control {{#if errors.lastName}}is-invalid{{/if}}"
               value="{{affiliate.lastName}}"
-              required
             >
+
+            {{#if errors.lastName}}
+              <div class="invalid-feedback">
+                {{errors.lastName}}
+              </div>
+            {{/if}}
           </div>
 
           <div class="mb-3">
@@ -39,19 +55,36 @@
               type="email"
               id="email"
               name="email"
-              class="form-control"
+              class="form-control {{#if errors.email}}is-invalid{{/if}}"
               value="{{affiliate.email}}"
-              required
             >
+
+            {{#if errors.email}}
+              <div class="invalid-feedback">
+                {{errors.email}}
+              </div>
+            {{/if}}
           </div>
 
           <div class="mb-4">
             <label for="membershipType" class="form-label">Tipo de afiliación</label>
-            <select id="membershipType" name="membershipType" class="form-select" required>
-              <option value="silver">Silver - 5%</option>
-              <option value="gold">Gold - 10%</option>
-              <option value="platinum">Platinum - 20%</option>
+            <select
+              id="membershipType"
+              name="membershipType"
+              class="form-select {{#if errors.membershipType}}is-invalid{{/if}}"
+            >
+              {{#each membershipOptions}}
+                <option value="{{value}}" {{#if selected}}selected{{/if}}>
+                  {{label}}
+                </option>
+              {{/each}}
             </select>
+
+            {{#if errors.membershipType}}
+              <div class="invalid-feedback">
+                {{errors.membershipType}}
+              </div>
+            {{/if}}
 
             <small class="text-muted">
               Afiliación actual: {{affiliate.membershipType}}
