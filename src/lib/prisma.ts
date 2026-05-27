@@ -1,8 +1,15 @@
-import 'dotenv/config'
-import { PrismaLibSql } from '@prisma/adapter-libsql'
-import { PrismaClient } from '../generated/prisma/client'
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "../generated/prisma/client";
 
-const adapter = new PrismaLibSql({ url: process.env.DATABASE_URL ?? 'file:./dev.db' })
-const prisma = new PrismaClient({ adapter })
+const connectionString = process.env.DATABASE_URL;
 
-export default prisma
+if (!connectionString) {
+  throw new Error("DATABASE_URL no está definida");
+}
+
+const adapter = new PrismaPg({ connectionString });
+
+const prisma = new PrismaClient({ adapter });
+
+export default prisma;
