@@ -7,10 +7,23 @@ datasource db {
   provider = "sqlite"
 }
 
+model User {
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  password   String
+  createdAt  DateTime    @default(now())
+  affiliates Affiliate[]
+}
+
 model Affiliate {
   id             Int    @id @default(autoincrement())
   firstName      String
   lastName       String
-  email          String @unique
+  email          String
   membershipType String
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([email, userId])
 }
