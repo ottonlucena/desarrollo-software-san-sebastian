@@ -26,4 +26,5 @@ model Affiliate {
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([email, userId])
+  @@unique([id, userId])
 }

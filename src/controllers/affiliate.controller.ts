@@ -14,14 +14,19 @@ const buildMembershipOptions = (selected?: string) => {
   }));
 };
 
-export const index = async (_req: Request, res: Response): Promise<void> => {
-  const affiliates = await AffiliateModel.getAll();
+export const index = async (req: Request, res: Response): Promise<void> => {
+  const userId = req.session.userId!;
+
+  const affiliates = await AffiliateModel.getAll(userId);
+
   res.render("affiliates/index", { affiliates });
 };
 
 export const show = async (req: Request, res: Response): Promise<void> => {
   const id = Number(req.params.id);
-  const affiliate = await AffiliateModel.getById(id);
+  const userId = req.session.userId!;
+
+  const affiliate = await AffiliateModel.getById(id, userId);
 
   if (!affiliate) {
     renderNotFound(res);
@@ -36,7 +41,9 @@ export const simulateDiscount = async (
   res: Response,
 ): Promise<void> => {
   const id = Number(req.params.id);
-  const affiliate = await AffiliateModel.getById(id);
+  const userId = req.session.userId!;
+
+  const affiliate = await AffiliateModel.getById(id, userId);
 
   if (!affiliate) {
     renderNotFound(res);
@@ -57,6 +64,7 @@ export const simulateDiscount = async (
     affiliate.membershipType,
     treatmentAmount,
   );
+
   res.render("affiliates/show", { affiliate, simulation });
 };
 
@@ -70,6 +78,8 @@ export const createAction = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
+  const userId = req.session.userId!;
+
   const result = affiliateSchema.safeParse(req.body);
 
   if (!result.success) {
@@ -82,7 +92,8 @@ export const createAction = async (
   }
 
   try {
-    const affiliate = await AffiliateModel.create(result.data);
+    const affiliate = await AffiliateModel.create(result.data, userId);
+
     res.redirect(`/affiliates/${affiliate.id}`);
   } catch {
     res.status(400).render("affiliates/create", {
@@ -96,7 +107,9 @@ export const createAction = async (
 
 export const editForm = async (req: Request, res: Response): Promise<void> => {
   const id = Number(req.params.id);
-  const affiliate = await AffiliateModel.getById(id);
+  const userId = req.session.userId!;
+
+  const affiliate = await AffiliateModel.getById(id, userId);
 
   if (!affiliate) {
     renderNotFound(res);
@@ -114,6 +127,7 @@ export const editAction = async (
   res: Response,
 ): Promise<void> => {
   const id = Number(req.params.id);
+  const userId = req.session.userId!;
 
   const result = affiliateSchema.safeParse(req.body);
 
@@ -131,7 +145,8 @@ export const editAction = async (
   }
 
   try {
-    await AffiliateModel.update(id, result.data);
+    await AffiliateModel.update(id, result.data, userId);
+
     res.redirect(`/affiliates/${id}`);
   } catch {
     res.status(400).render("affiliates/edit", {
@@ -151,9 +166,11 @@ export const deleteAction = async (
   res: Response,
 ): Promise<void> => {
   const id = Number(req.params.id);
+  const userId = req.session.userId!;
 
   try {
-    await AffiliateModel.remove(id);
+    await AffiliateModel.remove(id, userId);
+
     res.redirect("/affiliates");
   } catch {
     renderNotFound(res);
