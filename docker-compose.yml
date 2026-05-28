@@ -31,7 +31,7 @@ services:
       db:
         condition: service_healthy
     command: >
-      sh -c "npx prisma migrate deploy --url postgresql://postgres:postgres@db:5432/dentplus_db && yarn seed && node dist/index.cjs"
+      sh -c "npx prisma migrate deploy && yarn seed && node dist/index.cjs"
 
 volumes:
   dentplus_postgres_data:
