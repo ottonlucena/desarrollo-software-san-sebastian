@@ -21,17 +21,20 @@ services:
     build: .
     container_name: dentplus-app
     restart: unless-stopped
+    env_file:
+      - .env
     ports:
       - "3000:3000"
+
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/dentplus_db
-      SESSION_SECRET: docker-dev-secret-change-in-production
-      NODE_ENV: production
+      NODE_ENV: "production"
+
     depends_on:
       db:
         condition: service_healthy
+
     command: >
-      sh -c "npx prisma migrate deploy && yarn seed && node dist/index.cjs"
+      sh -c "export DATABASE_URL=$DATABASE_URL && npx prisma migrate deploy && yarn seed && node dist/index.js"
 
 volumes:
   dentplus_postgres_data:

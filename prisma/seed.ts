@@ -1,16 +1,8 @@
 import "dotenv/config";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
-const connectionString = process.env.DATABASE_URL;
-
-if (!connectionString) {
-  throw new Error("DATABASE_URL no está definida");
-}
-
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
 async function main() {
   console.log("Seeding database...");
@@ -27,34 +19,34 @@ async function main() {
     },
   });
 
-  const affiliates = [
-    {
-      firstName: "Camila",
-      lastName: "Rojas",
-      email: "camila.rojas@dentplus.cl",
-      membershipType: "silver",
-      userId: user.id,
-    },
-    {
-      firstName: "Matías",
-      lastName: "Pérez",
-      email: "matias.perez@dentplus.cl",
-      membershipType: "gold",
-      userId: user.id,
-    },
-    {
-      firstName: "Valentina",
-      lastName: "Soto",
-      email: "valentina.soto@dentplus.cl",
-      membershipType: "platinum",
-      userId: user.id,
-    },
-  ];
+  await prisma.affiliate.createMany({
+    data: [
+      {
+        firstName: "Camila",
+        lastName: "Rojas",
+        email: "camila.rojas@dentplus.cl",
+        membershipType: "silver",
+        userId: user.id,
+      },
+      {
+        firstName: "Matías",
+        lastName: "Pérez",
+        email: "matias.perez@dentplus.cl",
+        membershipType: "gold",
+        userId: user.id,
+      },
+      {
+        firstName: "Valentina",
+        lastName: "Soto",
+        email: "valentina.soto@dentplus.cl",
+        membershipType: "platinum",
+        userId: user.id,
+      },
+    ],
+  });
 
-  await prisma.affiliate.createMany({ data: affiliates });
-
-  const affiliateCount = await prisma.affiliate.count();
   const userCount = await prisma.user.count();
+  const affiliateCount = await prisma.affiliate.count();
 
   console.log(`Inserted ${userCount} user.`);
   console.log(`Inserted ${affiliateCount} affiliates.`);
@@ -62,8 +54,8 @@ async function main() {
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
+  .catch((error) => {
+    console.error(error);
     process.exit(1);
   })
   .finally(async () => {
