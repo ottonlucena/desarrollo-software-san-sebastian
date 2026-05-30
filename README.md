@@ -24,7 +24,7 @@ Proyecto desarrollado como parte de la Evaluación Unidad 3 — Desarrollo Web c
 | Servidor         | Node.js + Express          | 22.x / 4.x |
 | Lenguaje         | TypeScript                 | 5.x        |
 | Vistas           | express-handlebars         | 7.x        |
-| ORM              | Prisma                     | 7.x        |
+| ORM              | Prisma                     | 6.x        |
 | Base de datos    | PostgreSQL                 | 16         |
 | Validaciones     | Zod                        | 4.x        |
 | Autenticación    | express-session + bcryptjs | —          |
